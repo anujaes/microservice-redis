@@ -9,7 +9,7 @@ import redisQueues from "./queues";
  * @returns A promise resolving to the job added.
  */
 
-export const addJobToQueue = async (queueName: string, jobName: string, data: any): Promise<Job | null> => {
+export const addJobToQueue = async (queueName: string, jobName: string, data: any, delay: number = 0): Promise<Job | null> => {
     try {
         // Check if queue exists
         if (!redisQueues[queueName]) {
@@ -23,6 +23,7 @@ export const addJobToQueue = async (queueName: string, jobName: string, data: an
         const job = await redisQueues[queueName].add(jobName, JSON.stringify(data), {
             attempts: 3,
             removeOnComplete: true,
+            delay: delay,
         });
 
         console.log(`✅ Job successfully added to "${queueName}" (ID: ${job.id})`);
