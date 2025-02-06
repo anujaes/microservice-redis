@@ -5,7 +5,7 @@ export const produceMessage = async (req: Request, res: Response): Promise<void>
     try {
         const queName = process.env.SERVICE_ONE_QUEUE_NAME_TWO!;
         const jobName = process.env.SERVICE_ONE_QUEUE_NAME_TWO_JOB_ONE!;
-        const result = await addJobToQueue(queName, jobName, req.body);
+        const result = await addJobToQueue(queName, jobName, req.body, 10000);
         // console.log(`Job added to the queue::${queName} res::${JSON.stringify(result)}`);
 
         res.status(201).send({ message: 'Example POST request' });
